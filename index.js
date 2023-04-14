@@ -6,7 +6,7 @@ const { connected } = require('process');
 
 const repo = core.getInput('repo');
 
-const octokit = github.getOctokit(gitHubToken);
+const octokit = github.getOctokit(token);
 async function checkFileExistence(path) {
     return fs.promises.access(path, fs.constants.F_OK)
         .then(() => {
