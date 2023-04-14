@@ -1,0 +1,5 @@
+name: 'File Check Action'
+description: 'File action'
+runs:
+  using: 'node12'
+  main: 'index.js'
