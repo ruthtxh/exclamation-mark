@@ -33,19 +33,20 @@ async function checkFileStartsWithHeader(filePath) {
         });
 }
 // function that recursively finds markdown files in entre repository
-async function getAllFiles(dir, allFilesList = []) {
-    return fs.promises.readdirSync(dir)
-        .then(files => {
-            files.map(file => {
-                const name = dir + '/' + file;
-                if (fs.statSync(name).isDirectory()) { // check if subdirectory is present
-                    getAllFiles(name, allFilesList);     // do recursive execution for subdirectory
-                } else {
-                    allFilesList.push(name);           // push filename into the array
-                    core.info(`name`);
-                }
-            })
-        });
+
+function getAllFiles(dir, allFilesList = []) {
+    const files = fs.readdirSync(dir);
+    files.map(file => {
+        const name = dir + '/' + file;
+        if (fs.statSync(name).isDirectory()) { // check if subdirectory is present
+            getAllFiles(name, allFilesList);     // do recursive execution for subdirectory
+        } else {
+            allFilesList.push(name);           // push filename into the array
+            core.info(`name`);
+        }
+    })
+
+    return allFilesList;
 }
 (async () => {
     try {
