@@ -3,6 +3,8 @@ const github = require('@actions/github');
 const fs = require("fs");
 const { connected } = require('process');
 
+
+const repo = core.getInput('repo');
 async function checkFileExistence(path) {
     return fs.promises.access(path, fs.constants.F_OK)
         .then(() => {
@@ -35,6 +37,7 @@ async function checkFileStartsWithHeader(filePath) {
 // function that recursively finds markdown files in entre repository
 
 function getAllFiles(dir, allFilesList = []) {
+    core.info(dir);
     const files = fs.readdirSync(dir);
     files.map(file => {
         const name = dir + '/' + file;
@@ -50,7 +53,7 @@ function getAllFiles(dir, allFilesList = []) {
 }
 (async () => {
     try {
-        getAllFiles('/');
+        getAllFiles(repo);
         // checkFileExistence("README.md");
         // checkFileExistence("LICENSE");
         // checkFileStartsWithHeader("README.md");
