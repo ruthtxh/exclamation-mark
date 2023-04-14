@@ -42,7 +42,7 @@ function getAllFiles(dir, allFilesList = []) {
             getAllFiles(name, allFilesList);     // do recursive execution for subdirectory
         } else {
             allFilesList.push(name);           // push filename into the array
-            core.info(`name`);
+            core.info(name);
         }
     })
 
