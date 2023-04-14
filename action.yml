@@ -13,6 +13,7 @@ inputs:
   token:
     description: 'The token to use to access the GitHub API'
     required: true
+    default: ${{ github.token }}
 runs:
   using: 'node12'
   main: 'index.js'
