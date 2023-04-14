@@ -5,6 +5,8 @@ const { connected } = require('process');
 
 
 const repo = core.getInput('repo');
+
+const octokit = github.getOctokit(gitHubToken);
 async function checkFileExistence(path) {
     return fs.promises.access(path, fs.constants.F_OK)
         .then(() => {
@@ -51,9 +53,43 @@ function getAllFiles(dir, allFilesList = []) {
 
     return allFilesList;
 }
+
+
+
+
+const main = async () => {
+    const owner = core.getInput('owner', { required: true });
+    const repo = core.getInput('repo', { required: true });
+    const pr_number = core.getInput('pr_number', { required: true });
+    const token = core.getInput('token', { required: true });
+    const octokit = new github.getOctokit(token);
+
+    const { data: changedFiles } = await octokit.rest.pulls.listFiles({
+        owner,
+        repo,
+        pull_number: pr_number,
+    });
+    for (const file of changedFiles) {
+        /**
+         * Add labels according to file types.
+         */
+        core.info(file);
+        // const fileExtension = file.filename.split('.').pop();
+        // switch (fileExtension) {
+        //     case 'md':
+        //         await octokit.rest.issues.addLabels({
+        //             owner,
+        //             repo,
+        //             issue_number: pr_number,
+        //             labels: ['markdown'],
+        //         });
+        // }
+    }
+}
 (async () => {
     try {
-        getAllFiles(repo);
+        await main();
+        // getAllFiles(repo);
         // checkFileExistence("README.md");
         // checkFileExistence("LICENSE");
         // checkFileStartsWithHeader("README.md");
