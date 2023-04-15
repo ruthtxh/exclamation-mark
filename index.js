@@ -76,6 +76,7 @@ const main = async () => {
         const path = element.path;
         const fileType = path.split('.').pop();
         if (fileType.toLowerCase() === "md") {
+            core.info(path);
             const file = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
                 owner: owner,
                 repo: repo,
