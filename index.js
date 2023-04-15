@@ -63,11 +63,11 @@ const main = async () => {
 
 
     var myHeaders = new fetch.Headers();
+    myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + token);
     var requestOptions = {
         method: 'GET',
         headers: myHeaders,
-        redirect: 'follow'
     };
     const arr = []
     core.info(token);
