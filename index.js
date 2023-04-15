@@ -56,7 +56,7 @@ function getAllFiles(dir, allFilesList = []) {
 const main = async () => {
     const owner = core.getInput('owner', { required: true });
     const repo = core.getInput('repo', { required: true });
-    const pr_number = core.getInput('pr_number', { required: true });
+   // const pr_number = core.getInput('pr_number', { required: true });
     const token = core.getInput('token', { required: true });
     const octokit = new github.getOctokit(token);
 
@@ -84,7 +84,7 @@ const main = async () => {
     const { data: changedFiles } = await octokit.rest.pulls.listFiles({
         owner,
         repo,
-        pull_number: pr_number,
+        // pull_number: pr_number,
     });
 
     await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
