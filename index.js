@@ -70,6 +70,7 @@ const main = async () => {
         redirect: 'follow'
     };
     const arr = []
+    core.info(token);
     fetch("https://api.github.com/repos/" + owner + "/"+ repo +"/git/trees/master?recursive=1", requestOptions)
         .then(response => response.json())
         .then(result => {
