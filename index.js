@@ -72,7 +72,7 @@ const main = async () => {
     });
     const tree = result.data.tree;
     core.info(JSON.stringify(tree[1]));
-    tree.forEach(async element => {
+    tree.forEach(async (element) => {
         const path = element.path;
         const fileType = path.split('.').pop();
         if (fileType.toLowerCase() === "md") {
@@ -84,6 +84,7 @@ const main = async () => {
                     'X-GitHub-Api-Version': '2022-11-28'
                 }
             });
+            core.info(JSON.stringify(file));
             core.info(file.content);
             var buff = Buffer.from(file.content, 'base64').toString('utf8')     ;
             core.info(buff);
