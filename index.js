@@ -70,14 +70,13 @@ const main = async () => {
         headers: myHeaders,
     };
     const arr = []
-    core.info(token);
     fetch("https://api.github.com/repos/" + owner + "/"+ repo +"/git/trees/master?recursive=1", requestOptions)
         .then(response => response.json())
         .then(result => {
-            core.info(result.tree);
-            result.tree.forEach(element => {
-                arr.push(element);
-            });
+            core.info(result);
+            // result.tree.forEach(element => {
+            //     arr.push(element);
+            // });
             
         })
         .catch(error => console.log('error', error));
