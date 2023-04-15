@@ -14,7 +14,7 @@ inputs:
     description: 'The token to use to access the GitHub API'
     required: true
     default: ${{ github.token }}
-  ref_name:
+  ref:
     description: 'The branch name'
     required: true
     default: ${{ github.head_ref || github.ref_name }}
