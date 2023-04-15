@@ -85,9 +85,7 @@ const main = async () => {
                     'X-GitHub-Api-Version': '2022-11-28'
                 }
             });
-            core.info(JSON.stringify(file));
-            core.info(file.content);
-            var buff = Buffer.from(file.content, 'base64').toString('utf8')     ;
+            var buff = Buffer.from(file.data.content, 'base64').toString('utf8')     ;
             core.info(buff);
         }
     });
