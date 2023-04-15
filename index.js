@@ -73,7 +73,7 @@ const main = async () => {
     fetch("https://api.github.com/repos/" + owner + "/"+ repo +"/git/trees/master?recursive=1", requestOptions)
         .then(response => response.json())
         .then(result => {
-            core.info(result);
+            core.info(JSON.stringify(result));
             // result.tree.forEach(element => {
             //     arr.push(element);
             // });
