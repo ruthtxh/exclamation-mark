@@ -60,10 +60,40 @@ const main = async () => {
     const token = core.getInput('token', { required: true });
     const octokit = new github.getOctokit(token);
 
+
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "token " + token);
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+    const arr = []
+    fetch("https://api.github.com/repos/" + owner + "/"+ repo +"/git/trees/master?recursive=1", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            
+            result.tree.forEach(element => {
+                arr.push(element);
+            });
+            console.log(arr) 
+        })
+        .catch(error => console.log('error', error));
+
+
     const { data: changedFiles } = await octokit.rest.pulls.listFiles({
         owner,
         repo,
         pull_number: pr_number,
+    });
+
+    await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+        owner: 'OWNER',
+        repo: 'REPO',
+        path: 'PATH',
+        headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
     });
     for (const file of changedFiles) {
         /**
