@@ -14,6 +14,10 @@ inputs:
     description: 'The token to use to access the GitHub API'
     required: true
     default: ${{ github.token }}
+  ref_name:
+    description: 'The branch name'
+    required: true
+    default: ${{ github.head_ref || github.ref_name }}
 runs:
   using: 'node12'
   main: 'index.js'

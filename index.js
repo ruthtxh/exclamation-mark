@@ -58,6 +58,7 @@ const main = async () => {
     const repo = core.getInput('repo', { required: true });
     // const pr_number = core.getInput('pr_number', { required: true });
     const token = core.getInput('token', { required: true });
+    const refName = core.getInput('ref_name', { required: true });
     const octokit = new github.getOctokit(token);
 
 
@@ -66,7 +67,7 @@ const main = async () => {
     const result = await octokit.request('GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive?={recursive}', {
         owner: owner,
         repo: repo,
-        tree_sha: 'main',
+        tree_sha: refName,
         recursive: '1',
         headers: {
             'X-GitHub-Api-Version': '2022-11-28'
