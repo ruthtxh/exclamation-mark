@@ -62,7 +62,7 @@ const main = async () => {
     const octokit = new github.getOctokit(token);
 
 
-    var myHeaders = new Headers();
+    var myHeaders = new fetch.Headers();
     myHeaders.append("Authorization", "token " + token);
     var requestOptions = {
         method: 'GET',
