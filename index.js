@@ -63,14 +63,14 @@ const main = async () => {
 
 
 
-    await octokit.request('GET /repos/' + owner + '/' + repo + '/git/trees/master?recursive=1', {
+    const result = await octokit.request('GET /repos/' + owner + '/' + repo + '/git/trees/master?recursive=1', {
         owner: 'OWNER',
         repo: 'REPO',
         headers: {
             'X-GitHub-Api-Version': '2022-11-28'
         }
     })
-
+    core.info(result);
     const { data: changedFiles } = await octokit.rest.pulls.listFiles({
         owner,
         repo,
