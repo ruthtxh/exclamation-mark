@@ -73,7 +73,7 @@ const main = async () => {
             'X-GitHub-Api-Version': '2022-11-28'
         }
     })
-    core.info(JSON.stringify(result.tree));
+    core.info(JSON.stringify(result));
     const { data: changedFiles } = await octokit.rest.pulls.listFiles({
         owner,
         repo,
