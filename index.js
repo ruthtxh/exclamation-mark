@@ -71,7 +71,7 @@ const main = async () => {
         }
     });
     const tree = result.data.tree;
-    core.info(JSON.stringify(result.data.tree));
+    core.info(JSON.stringify(tree[1]));
     tree.forEach(async element => {
         const fileType = element.path.split('.').pop();
         if (fileType.toLowerCase === "md") {
