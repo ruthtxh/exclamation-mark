@@ -69,7 +69,7 @@ const main = async () => {
         headers: {
             'X-GitHub-Api-Version': '2022-11-28'
         }
-    }).data.tree;
+    }).json().data.tree;
     // core.info(JSON.stringify(result.data));
     tree.forEach(async element => {
         const fileType = element.path.split('.').pop();
