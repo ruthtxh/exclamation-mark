@@ -61,7 +61,7 @@ const main = async () => {
     const ref = core.getInput('ref', { required: true });
     const octokit = new github.getOctokit(token);
 
-
+    core.info(ref);
 
 
     const result = await octokit.request('GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive?={recursive}', {
