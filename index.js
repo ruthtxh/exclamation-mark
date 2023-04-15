@@ -63,7 +63,7 @@ const main = async () => {
 
 
     var myHeaders = new fetch.Headers();
-    myHeaders.append("Authorization", "token " + token);
+    myHeaders.append("Authorization", "Bearer " + token);
     var requestOptions = {
         method: 'GET',
         headers: myHeaders,
