@@ -61,10 +61,7 @@ const main = async () => {
     const ref = core.getInput('ref', { required: true });
     const octokit = new github.getOctokit(token);
 
-    core.info(ref);
-
-
-    const result = await octokit.request('GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive?={recursive}', {
+    const tree = await octokit.request('GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive={recursive}', {
         owner: owner,
         repo: repo,
         tree_sha: ref,
@@ -72,8 +69,24 @@ const main = async () => {
         headers: {
             'X-GitHub-Api-Version': '2022-11-28'
         }
-    })
-    core.info(JSON.stringify(result.data));
+    }).data.tree;
+    // core.info(JSON.stringify(result.data));
+    tree.forEach(async element => {
+        const fileType = element.path.split('.').pop();
+        if (fileType.toLowerCase === "md") {
+            const file = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+                owner: owner,
+                repo: repo,
+                path: 'PATH',
+                headers: {
+                    'X-GitHub-Api-Version': '2022-11-28'
+                }
+            });
+            var buff = Buffer.from(file.content, 'base64');
+            core.info(buff);
+        }
+    });
+
     const { data: changedFiles } = await octokit.rest.pulls.listFiles({
         owner,
         repo,
