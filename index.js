@@ -63,10 +63,10 @@ const main = async () => {
 
 
 
-    const result = await octokit.request('GET /repos/' + owner + '/' + repo + '/git/trees/{tree_sha}', {
-        owner: 'OWNER',
-        repo: 'REPO',
-        tree_sha: 'TREE_SHA',
+    const result = await octokit.request('GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive?={recursive}', {
+        owner: owner,
+        repo: repo,
+        tree_sha: 'main',
         recursive: '1',
         headers: {
             'X-GitHub-Api-Version': '2022-11-28'
