@@ -2,7 +2,6 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require("fs");
 const { connected } = require('process');
-const fetch = require("node-fetch");
 
 async function checkFileExistence(path) {
     return fs.promises.access(path, fs.constants.F_OK)
@@ -57,30 +56,20 @@ function getAllFiles(dir, allFilesList = []) {
 const main = async () => {
     const owner = core.getInput('owner', { required: true });
     const repo = core.getInput('repo', { required: true });
-   // const pr_number = core.getInput('pr_number', { required: true });
+    // const pr_number = core.getInput('pr_number', { required: true });
     const token = core.getInput('token', { required: true });
     const octokit = new github.getOctokit(token);
 
 
-    var myHeaders = new fetch.Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer " + token);
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-    };
-    const arr = []
-    fetch("https://api.github.com/repos/" + owner + "/"+ repo +"/git/trees/master?recursive=1", requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            core.info(JSON.stringify(result));
-            // result.tree.forEach(element => {
-            //     arr.push(element);
-            // });
-            
-        })
-        .catch(error => console.log('error', error));
 
+
+    await octokit.request('GET /repos/' + owner + '/' + repo + '/git/trees/master?recursive=1', {
+        owner: 'OWNER',
+        repo: 'REPO',
+        headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
+    })
 
     const { data: changedFiles } = await octokit.rest.pulls.listFiles({
         owner,
