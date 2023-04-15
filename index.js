@@ -72,11 +72,11 @@ const main = async () => {
     fetch("https://api.github.com/repos/" + owner + "/"+ repo +"/git/trees/master?recursive=1", requestOptions)
         .then(response => response.json())
         .then(result => {
-            
+            core.info(result.tree);
             result.tree.forEach(element => {
                 arr.push(element);
             });
-            console.log(arr) 
+            
         })
         .catch(error => console.log('error', error));
 
@@ -99,7 +99,7 @@ const main = async () => {
         /**
          * Add labels according to file types.
          */
-        core.info(file);
+        // core.info(file);
         // const fileExtension = file.filename.split('.').pop();
         // switch (fileExtension) {
         //     case 'md':
