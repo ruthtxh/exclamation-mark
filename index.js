@@ -75,6 +75,8 @@ const main = async () => {
     tree.forEach(async element => {
         const path = element.path;
         const fileType = path.split('.').pop();
+        core.info(path);
+        core.info(fileType);
         if (fileType.toLowerCase === "md") {
             const file = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
                 owner: owner,
