@@ -73,12 +73,13 @@ const main = async () => {
     const tree = result.data.tree;
     core.info(JSON.stringify(tree[1]));
     tree.forEach(async element => {
-        const fileType = element.path.split('.').pop();
+        const path = element.path;
+        const fileType = path.split('.').pop();
         if (fileType.toLowerCase === "md") {
             const file = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
                 owner: owner,
                 repo: repo,
-                path: 'PATH',
+                path: path,
                 headers: {
                     'X-GitHub-Api-Version': '2022-11-28'
                 }
