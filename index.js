@@ -64,7 +64,7 @@ const main = async () => {
             text: '',
             annotations: [
                 {
-                    path: tree[2],
+                    path: tree[2].path,
                     start_line: 1,
                     end_line: 1,
                     annotation_level: 'failure',
