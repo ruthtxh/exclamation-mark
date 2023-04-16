@@ -7,14 +7,15 @@ inputs:
   repo:
     description: 'The name of the repository'
     required: true
-  pr_number:
-    description: 'The number of the pull request'
-    required: true
   token:
     description: 'The token to use to access the GitHub API'
     required: true
     default: ${{ github.token }}
   ref:
+    description: 'The branch name'
+    required: true
+    default: ${{ github.head_ref || github.ref_name }}
+  sha:
     description: 'The branch name'
     required: true
     default: ${{ github.head_ref || github.ref_name }}
