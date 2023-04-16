@@ -16,9 +16,9 @@ inputs:
     required: true
     default: ${{ github.head_ref || github.ref_name }}
   sha:
-    description: 'The branch name'
+    description: 'The sha of the commit'
     required: true
-    default: ${{ github.head_ref || github.ref_name }}
+    default: ${{ github.sha }}
 runs:
   using: 'node12'
   main: 'index.js'
