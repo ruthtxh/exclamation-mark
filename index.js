@@ -49,7 +49,8 @@ const main = async () => {
             }
         }
     });
-
+    core.info(sha)
+    core.info(tree[1])
     await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
         owner: owner,
         repo: repo,
@@ -63,7 +64,7 @@ const main = async () => {
             text: '',
             annotations: [
                 {
-                    path: tree[0],
+                    path: tree[1],
                     start_line: 1,
                     end_line: 1,
                     annotation_level: 'failure',
