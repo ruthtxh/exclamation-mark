@@ -27,7 +27,7 @@ function computerVision(key, endpoint) {
             // Analyze URL image
             console.log('Analyzing tags in image...', tagsURL.split('/').pop());
             const captions = (await computerVisionClient.analyzeImage(tagsURL, { visualFeatures: ['Description'] })).description.captions[0].text;
-            return(captions.split(' ').join('-'));
+            console.log(captions.split(' ').join('-'));
         },
         function () {
             return new Promise((resolve) => {
