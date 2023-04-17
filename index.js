@@ -15,10 +15,11 @@ const ApiKeyCredentials = require('@azure/ms-rest-js').ApiKeyCredentials;
 
 
 
-const computerVisionClient = new ComputerVisionClient(
-    new ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': key } }), endpoint);
+
 
 function computerVision(key, endpoint) {
+    const computerVisionClient = new ComputerVisionClient(
+        new ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': key } }), endpoint);
     async.series([
         async function () {
             // Image of different kind of dog.
