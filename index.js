@@ -1,6 +1,5 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const fs = require("fs");
 const async = require('async');
 const fs = require('fs');
 const https = require('https');
