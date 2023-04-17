@@ -1,53 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const async = require('async');
-const fs = require('fs');
-const https = require('https');
-const path = require("path");
-const createReadStream = require('fs').createReadStream
-const sleep = require('util').promisify(setTimeout);
-const ComputerVisionClient = require('@azure/cognitiveservices-computervision').ComputerVisionClient;
-const ApiKeyCredentials = require('@azure/ms-rest-js').ApiKeyCredentials;
-
-
-
-
-
-
-
-
-
-function computerVision(key, endpoint) {
-    const computerVisionClient = new ComputerVisionClient(
-        new ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': key } }), endpoint);
-    async.series([
-        async function () {
-            // Image of different kind of dog.
-            const tagsURL = 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png';
-            // Analyze URL image
-            console.log('Analyzing tags in image...', tagsURL.split('/').pop());
-            const captions = (await computerVisionClient.analyzeImage(tagsURL, { visualFeatures: ['Description'] })).description.captions[0].text;
-            console.log(captions.split(' ').join('-'));         
-        },
-        function () {
-            return new Promise((resolve) => {
-                resolve();
-            })
-        }
-    ], (err) => {
-        throw (err);
-    });
-}
-
-
-
-
-
-
-
-
-
-
+const azure = require("./azure");
 
 const main = async () => {
     const owner = core.getInput('owner', { required: true });
@@ -70,8 +23,6 @@ const main = async () => {
     });
     const tree = result.data.tree;
     
-
-
     tree.forEach(async (element) => {
         // get content of markdown files
         const path = element.path;
@@ -129,8 +80,8 @@ const main = async () => {
         }
     });
 
-    const altText = computerVision(key, endpoint);
-    core.info(altText)
+    azure.computerVision(key, endpoint).then((suggestedText) => { console.log(suggestedText) })
+    // core.info(altText)
 }
 (async () => {
     try {
