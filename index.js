@@ -27,7 +27,7 @@ function computerVision(key, endpoint) {
             // Analyze URL image
             console.log('Analyzing tags in image...', tagsURL.split('/').pop());
             const captions = (await computerVisionClient.analyzeImage(tagsURL, { visualFeatures: ['Description'] })).description.captions[0].text;
-            console.log(captions.split(' ').join('-'));
+            console.log(captions.split(' ').join('-'));         
         },
         function () {
             return new Promise((resolve) => {
@@ -89,7 +89,7 @@ const main = async () => {
             const content = Buffer.from(file.data.content, 'base64').toString('utf8');
 
             // get index of markdown images that do not contain alt text
-            const regex = /!\(/gi;
+            const regex = /!\[\]\(/gi;
             let result, indices = [];
             while ((result = regex.exec(content))) {
                 indices.push(result.index);
@@ -97,7 +97,7 @@ const main = async () => {
             // push to array url
             let arr = []
             for (let i = 0; i < indices.length; i++) {
-                arr.push(content.substring(indices[i] + 2, indices[i + 1]).split(")")[0]);
+                arr.push(content.substring(indices[i] + 4, indices[i + 1]).split(")")[0]);
             }
         }
     });
