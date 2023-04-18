@@ -76,7 +76,7 @@ const main = async () => {
                 text: '',
                 annotations: [
                     {
-                        path: mdFileArr[0].element.path,
+                        path: mdFileArr[0].path,
                         start_line: 2,
                         end_line: 4,
                         annotation_level: 'failure',
