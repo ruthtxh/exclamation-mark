@@ -62,7 +62,6 @@ const main = async () => {
 
 
     populateMdFileArr.then(async () => {
-        console.log(element.path)
         await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
             owner: owner,
             repo: repo,
