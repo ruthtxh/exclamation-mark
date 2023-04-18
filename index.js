@@ -61,36 +61,34 @@ const main = async () => {
     });
 
 
-    populateMdFileArr.then(() => {
-        mdFileArr.forEach(async (element) => {
-            console.log(element.path)
-            await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
-                owner: owner,
-                repo: repo,
-                name: 'Markdown image alt text checker',
-                head_sha: sha,
-                status: 'completed',
-                conclusion: 'failure',
-                output: {
-                    title: 'Markdown image missing alt text',
-                    summary: 'Add alt text to image',
-                    text: '',
-                    annotations: [
-                        {
-                            path: element.path,
-                            start_line: 2,
-                            end_line: 4,
-                            annotation_level: 'failure',
-                            message: 'Markdown image missing alt text',
-                            start_column: 3,
-                            end_column: 4
-                        }
-                    ]
-                },
-                headers: {
-                    'X-GitHub-Api-Version': '2022-11-28'
-                }
-            });
+    populateMdFileArr.then(async () => {
+        console.log(element.path)
+        await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
+            owner: owner,
+            repo: repo,
+            name: 'Markdown image alt text checker',
+            head_sha: sha,
+            status: 'completed',
+            conclusion: 'failure',
+            output: {
+                title: 'Markdown image missing alt text',
+                summary: 'Add alt text to image',
+                text: '',
+                annotations: [
+                    {
+                        path: mdFileArr[0].element.path,
+                        start_line: 2,
+                        end_line: 4,
+                        annotation_level: 'failure',
+                        message: 'Markdown image missing alt text',
+                        start_column: 3,
+                        end_column: 4
+                    }
+                ]
+            },
+            headers: {
+                'X-GitHub-Api-Version': '2022-11-28'
+            }
         })
     });
 
