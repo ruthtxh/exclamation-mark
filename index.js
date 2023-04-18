@@ -57,7 +57,7 @@ const main = async () => {
             }
         }
     });
-
+    console.log(mdFileArr)
     mdFileArr.forEach(async (element) => {
         await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
             owner: owner,
