@@ -55,8 +55,8 @@ const main = async () => {
                     }
                     mdFileArr.push(mdFile);
                 }
-                if (index === array.length - 1) resolve();
             }
+            if (index === array.length - 1) resolve();
         });
     });
 
