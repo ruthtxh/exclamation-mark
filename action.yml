@@ -8,7 +8,7 @@ inputs:
     description: 'The name of the repository'
     required: true
   token:
-    description: 'The token to use to access the GitHub API'
+    description: 'The token to access the GitHub API'
     required: true
     default: ${{ github.token }}
   ref:
@@ -20,7 +20,7 @@ inputs:
     required: true
     default: ${{ github.sha }}
   key:
-    description: 'The api key for Azure Computer Vision resource'
+    description: 'The API key for Azure Computer Vision resource'
     required: false
   endpoint:
     description: 'The endpoint for Azure Computer Vision resource'
