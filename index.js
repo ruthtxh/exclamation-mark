@@ -40,7 +40,7 @@ const main = async () => {
                 }
             });
             const content = Buffer.from(file.data.content, 'base64').toString('utf8');
-
+            console.log(content)
             // get index of markdown images that do not contain alt text
             const regex = /!\[\]\(/gi;
             let result, indices = [];
@@ -53,6 +53,7 @@ const main = async () => {
                 for (let i = 0; i < indices.length; i++) {
                     mdFile.urlArr.push(content.substring(indices[i] + 4, indices[i + 1]).split(")")[0]);
                 }
+                console.log(JSON.stringify(mdFile))
                 mdFileArr.push(mdFile);
             }
         }
