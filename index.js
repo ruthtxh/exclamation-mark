@@ -21,8 +21,10 @@ const main = async () => {
             'X-GitHub-Api-Version': '2022-11-28'
         }
     });
+
+
     const tree = result.data.tree;
-    
+    const mdFileArr = [];
     tree.forEach(async (element) => {
         // get content of markdown files
         const path = element.path;
@@ -45,40 +47,46 @@ const main = async () => {
             while ((result = regex.exec(content))) {
                 indices.push(result.index);
             }
-            // push to array url
-            let arr = []
-            for (let i = 0; i < indices.length; i++) {
-                arr.push(content.substring(indices[i] + 4, indices[i + 1]).split(")")[0]);
+            if (indices.length > 0) {
+                // push to array url
+                let mdFile = { path: element.path, urlArr: [] }
+                for (let i = 0; i < indices.length; i++) {
+                    mdFile.urlArr.push(content.substring(indices[i] + 4, indices[i + 1]).split(")")[0]);
+                }
+                mdFileArr.push(mdFile);
             }
         }
     });
-    await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
-        owner: owner,
-        repo: repo,
-        name: 'Markdown image alt text checker',
-        head_sha: sha,
-        status: 'completed',
-        conclusion: 'failure',
-        output: {
-            title: 'Markdown image missing alt text',
-            summary: 'Add alt text to image',
-            text: '',
-            annotations: [
-                {
-                    path: tree[2].path,
-                    start_line: 1,
-                    end_line: 1,
-                    annotation_level: 'failure',
-                    message: 'Markdown image missing alt text',
-                    start_column: 1,
-                    end_column: 1
-                }
-            ]
-        },
-        headers: {
-            'X-GitHub-Api-Version': '2022-11-28'
-        }
-    });
+
+    mdFileArr.forEach(async (element) => {
+        await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
+            owner: owner,
+            repo: repo,
+            name: 'Markdown image alt text checker',
+            head_sha: sha,
+            status: 'completed',
+            conclusion: 'failure',
+            output: {
+                title: 'Markdown image missing alt text',
+                summary: 'Add alt text to image',
+                text: '',
+                annotations: [
+                    {
+                        path: element.path,
+                        start_line: 2,
+                        end_line: 4,
+                        annotation_level: 'failure',
+                        message: 'Markdown image missing alt text',
+                        start_column: 1,
+                        end_column: 1
+                    }
+                ]
+            },
+            headers: {
+                'X-GitHub-Api-Version': '2022-11-28'
+            }
+        });
+    })
 
     azure.computerVision(key, endpoint).then((suggestedText) => { console.log(suggestedText) })
     // core.info(altText)
