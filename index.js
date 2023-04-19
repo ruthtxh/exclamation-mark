@@ -56,7 +56,7 @@ const main = async () => {
         }
     });
 
-    const mdFileArr = await Promise.all(promises);
+    let mdFileArr = await Promise.all(promises);
     mdFileArr = mdFileArr.filter((element) => {
         return element !== undefined;
     });
