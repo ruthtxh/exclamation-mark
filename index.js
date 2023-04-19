@@ -62,6 +62,7 @@ const main = async () => {
     });
     console.log(mdFileArr);
     console.log(mdFileArr[0].path);
+
     await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
         owner: owner,
         repo: repo,
@@ -76,8 +77,8 @@ const main = async () => {
             annotations: [
                 {
                     path: mdFileArr[0].path,
-                    start_line: 2,
-                    end_line: 4,
+                    start_line: 1,
+                    end_line: 1,
                     annotation_level: 'failure',
                     message: 'Markdown image missing alt text',
                     start_column: 1,
