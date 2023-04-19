@@ -40,27 +40,34 @@ const main = async () => {
             });
             const content = Buffer.from(file.data.content, 'base64').toString('utf8');
             // get index of markdown images that do not contain alt text
-            const regex = /!\[\]\(/gi;
-            let result, indices = [];
-            while ((result = regex.exec(content))) {
-                indices.push(result.index);
+            const contentArr = content.split('\n')
+            let rowArr = []
+            for (let i = 0; i < contentArr.length; i++) {
+                if (contentArr[i].indexOf("![]") >= 0) rowArr.push(i)
             }
-            if (indices.length > 0) {
-                let mdFile = [];
-                for (let i = 0; i < indices.length; i++) {
+            let mdFile = [];
+            for (let i = 0; i < rowArr.length; i++) {
+                const lineContent = contentArr[rowArr[i]]
+                const regex = /!\[\]/gi;
+                let result;
+                while ((result = regex.exec(lineContent))) {
+                    // indices.push(result.index);
+                    const pos = result.index;
+                    console.log(result.index)
+                    const url = lineContent.substring(pos + 4).split(")")[0];
+                    let mdError = {
+                        path: element.path,
+                        annotation_level: 'warning',
+                        title: 'Markdown Image Checker',
+                        message: 'Missing alt-text for image ' + url,
+                        start_line: 2,
+                        end_line: 2,
+                        urlArr: []
+                    }
                     if (1 == 1) {
-                        let mdError = {
-                            path: element.path,
-                            annotation_level: 'warning',
-                            title: 'Markdown Image Checker',
-                            message: 'Missing alt-text for image ' + content.substring(indices[i] + 4, indices[i + 1]).split(")")[0],
-                            start_line: 2,
-                            end_line: 2,
-                            urlArr: []
-                        }
                         await azure.computerVision(key, endpoint, 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png').then((suggestedText) => {
                             mdError.raw_details = 'Suggested alt-text: ' + suggestedText;
-                            // console.log(suggestedText)
+                            console.log(suggestedText)
                         })
                         mdFile.push(mdError);
                     }
@@ -74,10 +81,7 @@ const main = async () => {
     mdFileArr = mdFileArr.filter((element) => {
         return element !== undefined;
     });
-    console.log(mdFileArr);
-    mdFileArrFlatten = [].concat.apply([], mdFileArr) 
-    console.log(mdFileArrFlatten);
-    console.log(mdFileArrFlatten[0].path);
+    mdFileArrFlatten = [].concat.apply([], mdFileArr)
 
     if (mdFileArrFlatten.length > 0) {
         await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
@@ -88,7 +92,7 @@ const main = async () => {
             status: 'completed',
             conclusion: 'failure',
             output: {
-                title: 'Exclamation Mark GitHub Action Report',
+                title: '![Exclamation Mark] GitHub Action Report',
                 summary: 'There are ' + mdFileArrFlatten.length.toString() + ' warnings.',
                 text: 'You may have some markdown files that contain images with missing alt-text',
                 annotations: mdFileArrFlatten
@@ -113,9 +117,6 @@ const main = async () => {
             }
         })
     }
-    console.log(mdFileArr);
-
-
     // core.info(altText)
 }
 (async () => {
