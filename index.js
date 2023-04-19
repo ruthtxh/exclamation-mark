@@ -58,7 +58,7 @@ const main = async () => {
                         path: element.path,
                         annotation_level: 'warning',
                         title: 'Markdown Image Checker',
-                        message: 'Missing alt-text for image ' + url + ' on line ' + (rowArr[i] + 1).toString,
+                        message: 'Missing alt-text for image ' + url + ' on line ' + (rowArr[i] + 1).toString(),
                         start_line: rowArr[i] + 1,
                         end_line: rowArr[i] + 1,
                         urlArr: []
