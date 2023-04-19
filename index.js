@@ -49,47 +49,48 @@ const main = async () => {
                 // push to array url
                 let mdFile = { path: element.path, urlArr: [] }
                 for (let i = 0; i < indices.length; i++) {
-                    return (content.substring(indices[i] + 4, indices[i + 1]).split(")")[0]);
+                    mdFile.urlArr.push(content.substring(indices[i] + 4, indices[i + 1]).split(")")[0]);
                 }
+                return (mdFile);
             }
         }
     });
 
     const mdFileArr = await Promise.all(promises);
+    mdFileArr = mdFileArr.filter((element) => {
+        return element !== undefined;
+    });
+
+    await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
+        owner: owner,
+        repo: repo,
+        name: 'Markdown image alt text checker',
+        head_sha: sha,
+        status: 'completed',
+        conclusion: 'failure',
+        output: {
+            title: 'Markdown image missing alt text',
+            summary: 'Add alt text to image',
+            text: '',
+            annotations: [
+                {
+                    path: mdFileArr[0].path,
+                    start_line: 2,
+                    end_line: 4,
+                    annotation_level: 'failure',
+                    message: 'Markdown image missing alt text',
+                    start_column: 3,
+                    end_column: 4
+                }
+            ]
+        },
+        headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
+    })
+
     console.log(mdFileArr);
 
-    // populateMdFileArr.then(async () => {
-    //     await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
-    //         owner: owner,
-    //         repo: repo,
-    //         name: 'Markdown image alt text checker',
-    //         head_sha: sha,
-    //         status: 'completed',
-    //         conclusion: 'failure',
-    //         output: {
-    //             title: 'Markdown image missing alt text',
-    //             summary: 'Add alt text to image',
-    //             text: '',
-    //             annotations: [
-    //                 {
-    //                     path: mdFileArr[0].path,
-    //                     start_line: 2,
-    //                     end_line: 4,
-    //                     annotation_level: 'failure',
-    //                     message: 'Markdown image missing alt text',
-    //                     start_column: 3,
-    //                     end_column: 4
-    //                 }
-    //             ]
-    //         },
-    //         headers: {
-    //             'X-GitHub-Api-Version': '2022-11-28'
-    //         }
-    //     })
-
-    // }).catch(() => {
-    //     console.log("Promise Rejected");
-    // });;
 
     // azure.computerVision(key, endpoint).then((suggestedText) => { console.log(suggestedText) })
     // core.info(altText)
