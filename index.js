@@ -60,7 +60,8 @@ const main = async () => {
     mdFileArr = mdFileArr.filter((element) => {
         return element !== undefined;
     });
-
+    console.log(mdFileArr);
+    console.log(mdFileArr[0].path);
     await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
         owner: owner,
         repo: repo,
