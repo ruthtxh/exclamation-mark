@@ -74,6 +74,7 @@ const main = async () => {
     mdFileArr = mdFileArr.filter((element) => {
         return element !== undefined;
     });
+    console.log(mdFileArr);
     mdFileArr.flat(1);
     console.log(mdFileArr);
     console.log(mdFileArr[0].path);
