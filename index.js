@@ -75,7 +75,7 @@ const main = async () => {
         return element !== undefined;
     });
     console.log(mdFileArr);
-    mdFileArr.flat(1);
+    mdFileArr = [].concat.apply([], arrays) 
     console.log(mdFileArr);
     console.log(mdFileArr[0].path);
 
