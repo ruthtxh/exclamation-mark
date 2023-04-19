@@ -46,23 +46,23 @@ const main = async () => {
                 indices.push(result.index);
             }
             if (indices.length > 0) {
-                // push to array url
                 for (let i = 0; i < indices.length; i++) {
-                    let mdFile = {
-                        path: element.path,
-                        annotation_level: 'warning',
-                        title: 'Markdown Image Checker',
-                        message: 'Missing alt-text for image ' + content.substring(indices[i] + 4, indices[i + 1]).split(")")[0],
-                        start_line: 2,
-                        end_line: 2,
-                        urlArr: []
-                    }
+                    let mdFile = [];
                     if (1 == 1) {
+                        let mdError = {
+                            path: element.path,
+                            annotation_level: 'warning',
+                            title: 'Markdown Image Checker',
+                            message: 'Missing alt-text for image ' + content.substring(indices[i] + 4, indices[i + 1]).split(")")[0],
+                            start_line: 2,
+                            end_line: 2,
+                            urlArr: []
+                        }
                         azure.computerVision(key, endpoint, 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png').then((suggestedText) => {
-                            mdFile.raw_details = 'Suggested alt-text: ' + suggestedText;
+                            mdError.raw_details = 'Suggested alt-text: ' + suggestedText;
                             // console.log(suggestedText)
                         })
-
+                        mdFile.push(mdError);
                     }
                 }
                 return (mdFile);
@@ -74,6 +74,7 @@ const main = async () => {
     mdFileArr = mdFileArr.filter((element) => {
         return element !== undefined;
     });
+    mdFileArr.flat(1);
     console.log(mdFileArr);
     console.log(mdFileArr[0].path);
 
