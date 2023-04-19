@@ -79,8 +79,8 @@ const main = async () => {
                     end_line: 4,
                     annotation_level: 'failure',
                     message: 'Markdown image missing alt text',
-                    start_column: 3,
-                    end_column: 4
+                    start_column: 1,
+                    end_column: 1
                 }
             ]
         },
