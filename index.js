@@ -46,8 +46,8 @@ const main = async () => {
                 indices.push(result.index);
             }
             if (indices.length > 0) {
+                let mdFile = [];
                 for (let i = 0; i < indices.length; i++) {
-                    let mdFile = [];
                     if (1 == 1) {
                         let mdError = {
                             path: element.path,
