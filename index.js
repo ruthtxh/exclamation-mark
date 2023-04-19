@@ -47,9 +47,23 @@ const main = async () => {
             }
             if (indices.length > 0) {
                 // push to array url
-                let mdFile = { path: element.path, urlArr: [] }
                 for (let i = 0; i < indices.length; i++) {
-                    mdFile.urlArr.push(content.substring(indices[i] + 4, indices[i + 1]).split(")")[0]);
+                    let mdFile = {
+                        path: element.path,
+                        annotation_level: 'warning',
+                        title: 'Markdown Image Checker',
+                        message: 'Missing alt-text for image ' + content.substring(indices[i] + 4, indices[i + 1]).split(")")[0],
+                        start_line: 2,
+                        end_line: 2,
+                        urlArr: []
+                    }
+                    if (1 == 1) {
+                        azure.computerVision(key, endpoint, 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png').then((suggestedText) => {
+                            mdFile.raw_details = 'Suggested alt-text: ' + suggestedText;
+                            // console.log(suggestedText)
+                        })
+
+                    }
                 }
                 return (mdFile);
             }
@@ -73,26 +87,19 @@ const main = async () => {
             conclusion: 'failure',
             output: {
                 title: 'Exclamation Mark GitHub Action Report',
-                summary: 'There are 0 failures, 2 warnings, and 1 notices.',
+                summary: 'There are ' + mdFileArr.length.toString() + ' warnings.',
                 text: 'You may have some markdown files that contain images with missing alt-text',
-                annotations: [
-                    // {
-                    //     path: mdFileArr[0].path,
-                    //     start_line: 1,
-                    //     end_line: 1,
-                    //     annotation_level: 'failure',
-                    //     message: 'Markdown image missing alt text',
-                    // },
-                    {
-                        path: mdFileArr[0].path,
-                        annotation_level: 'warning',
-                        title: 'Markdown Image Checker',
-                        message: 'Misisng alt-text for image',
-                        raw_details: 'Do you mean _____ ?',
-                        start_line: 2,
-                        end_line: 2
-                    },
-                ], images: [
+                annotations: mdFileArr
+                // [
+                // {
+                //     path: mdFileArr[0].path,
+                //     start_line: 1,
+                //     end_line: 1,
+                //     annotation_level: 'failure',
+                //     message: 'Markdown image missing alt text',
+                // },
+                // ]
+                , images: [
                     {
                         alt: 'Super dog',
                         image_url: 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png'
@@ -107,7 +114,6 @@ const main = async () => {
     console.log(mdFileArr);
 
 
-    // azure.computerVision(key, endpoint, 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png').then((suggestedText) => { console.log(suggestedText) })
     // core.info(altText)
 }
 (async () => {
