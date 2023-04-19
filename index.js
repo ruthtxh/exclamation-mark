@@ -63,38 +63,51 @@ const main = async () => {
     console.log(mdFileArr);
     console.log(mdFileArr[0].path);
 
-    await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
-        owner: owner,
-        repo: repo,
-        name: 'Markdown image alt text checker',
-        head_sha: sha,
-        status: 'completed',
-        conclusion: 'failure',
-        output: {
-            title: 'Markdown image missing alt text',
-            summary: 'Add alt text to image',
-            text: '',
-            annotations: [
-                {
-                    path: mdFileArr[0].path,
-                    start_line: 1,
-                    end_line: 1,
-                    annotation_level: 'failure',
-                    message: 'Markdown image missing alt text',
-                    start_column: 1,
-                    end_column: 1
-                }
-            ]
-        },
-        headers: {
-            'X-GitHub-Api-Version': '2022-11-28'
-        }
-    })
-
+    if (mdFileArr.length > 0) {
+        await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
+            owner: owner,
+            repo: repo,
+            name: 'Markdown image alt text checker',
+            head_sha: sha,
+            status: 'completed',
+            conclusion: 'failure',
+            output: {
+                title: 'Exclamation Mark GitHub Action Report',
+                summary: 'There are 0 failures, 2 warnings, and 1 notices.',
+                text: 'You may have some markdown files that contain images with missing alt-text',
+                annotations: [
+                    // {
+                    //     path: mdFileArr[0].path,
+                    //     start_line: 1,
+                    //     end_line: 1,
+                    //     annotation_level: 'failure',
+                    //     message: 'Markdown image missing alt text',
+                    // },
+                    {
+                        path: mdFileArr[0].path,
+                        annotation_level: 'warning',
+                        title: 'Markdown Image Checker',
+                        message: 'Misisng alt-text for image',
+                        raw_details: 'Do you mean _____ ?',
+                        start_line: 2,
+                        end_line: 2
+                    },
+                ], images: [
+                    {
+                        alt: 'Super dog',
+                        image_url: 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png'
+                    }
+                ]
+            },
+            headers: {
+                'X-GitHub-Api-Version': '2022-11-28'
+            }
+        })
+    }
     console.log(mdFileArr);
 
 
-    // azure.computerVision(key, endpoint).then((suggestedText) => { console.log(suggestedText) })
+    // azure.computerVision(key, endpoint, 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png').then((suggestedText) => { console.log(suggestedText) })
     // core.info(altText)
 }
 (async () => {
