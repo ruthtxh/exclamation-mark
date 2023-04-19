@@ -53,15 +53,14 @@ const main = async () => {
                 while ((result = regex.exec(lineContent))) {
                     // indices.push(result.index);
                     const pos = result.index;
-                    console.log(result.index)
                     const url = lineContent.substring(pos + 4).split(")")[0];
                     let mdError = {
                         path: element.path,
                         annotation_level: 'warning',
                         title: 'Markdown Image Checker',
-                        message: 'Missing alt-text for image ' + url,
-                        start_line: 2,
-                        end_line: 2,
+                        message: 'Missing alt-text for image ' + url + ' on line ' + (rowArr[i] + 1).toString,
+                        start_line: rowArr[i] + 1,
+                        end_line: rowArr[i] + 1,
                         urlArr: []
                     }
                     if (1 == 1) {
