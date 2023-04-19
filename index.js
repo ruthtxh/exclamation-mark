@@ -75,11 +75,11 @@ const main = async () => {
         return element !== undefined;
     });
     console.log(mdFileArr);
-    mdFileArr = [].concat.apply([], arrays) 
-    console.log(mdFileArr);
-    console.log(mdFileArr[0].path);
+    mdFileArrFlatten = [].concat.apply([], mdFileArr) 
+    console.log(mdFileArrFlatten);
+    console.log(mdFileArrFlatten[0].path);
 
-    if (mdFileArr.length > 0) {
+    if (mdFileArrFlatten.length > 0) {
         await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
             owner: owner,
             repo: repo,
@@ -89,9 +89,9 @@ const main = async () => {
             conclusion: 'failure',
             output: {
                 title: 'Exclamation Mark GitHub Action Report',
-                summary: 'There are ' + mdFileArr.length.toString() + ' warnings.',
+                summary: 'There are ' + mdFileArrFlatten.length.toString() + ' warnings.',
                 text: 'You may have some markdown files that contain images with missing alt-text',
-                annotations: mdFileArr
+                annotations: mdFileArrFlatten
                 // [
                 // {
                 //     path: mdFileArr[0].path,
