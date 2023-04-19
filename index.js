@@ -58,7 +58,7 @@ const main = async () => {
                             end_line: 2,
                             urlArr: []
                         }
-                        azure.computerVision(key, endpoint, 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png').then((suggestedText) => {
+                        await azure.computerVision(key, endpoint, 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png').then((suggestedText) => {
                             mdError.raw_details = 'Suggested alt-text: ' + suggestedText;
                             // console.log(suggestedText)
                         })
