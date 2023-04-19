@@ -57,16 +57,16 @@ const main = async () => {
                     let mdError = {
                         path: element.path,
                         annotation_level: 'warning',
-                        title: 'Markdown Image Checker',
-                        message: 'Missing alt-text for image ' + url + ' on line ' + (rowArr[i] + 1).toString(),
+                        title: 'Markdown Image Alt-text Checker',
+                        message: 'Missing alt-text for image ' + url + ' on line ' + (rowArr[i] + 1).toString() + '.',
                         start_line: rowArr[i] + 1,
                         end_line: rowArr[i] + 1,
                         urlArr: []
                     }
                     if (1 == 1) {
                         await azure.computerVision(key, endpoint, 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png').then((suggestedText) => {
-                            mdError.raw_details = 'Suggested alt-text: ' + suggestedText;
-                            console.log(suggestedText)
+                            const updatedText = mdError.message + ' Suggested alt-text: ' + suggestedText;
+                            mdError.message = updatedText;
                         })
                         mdFile.push(mdError);
                     }
@@ -86,7 +86,7 @@ const main = async () => {
         await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
             owner: owner,
             repo: repo,
-            name: 'Markdown image alt text checker',
+            name: '![Exclamation Mark]',
             head_sha: sha,
             status: 'completed',
             conclusion: 'failure',
@@ -94,17 +94,8 @@ const main = async () => {
                 title: '![Exclamation Mark] GitHub Action Report',
                 summary: 'There are ' + mdFileArrFlatten.length.toString() + ' warnings.',
                 text: 'You may have some markdown files that contain images with missing alt-text',
-                annotations: mdFileArrFlatten
-                // [
-                // {
-                //     path: mdFileArr[0].path,
-                //     start_line: 1,
-                //     end_line: 1,
-                //     annotation_level: 'failure',
-                //     message: 'Markdown image missing alt text',
-                // },
-                // ]
-                , images: [
+                annotations: mdFileArrFlatten,
+                images: [
                     {
                         alt: 'Super dog',
                         image_url: 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png'
