@@ -1,5 +1,5 @@
 # ❗[Exclamation Mark] Markdown Image Alt-text Checker
-This action checks markdown (.md) files for images and flags out missing alt-text. Optional usage with the Microsoft Azure Cognitive Services integration to get suggestions for the missing alt-text. Can be run as part of a PR pre-merge check or periodically using the `workflow_dispatch` trigger.
+This action checks markdown (.md) files for images and flags out missing inline alt-text. Optional usage with the Microsoft Azure Cognitive Services integration to get suggestions for the missing alt-text. Can be run as part of a PR pre-merge check or periodically using the `workflow_dispatch` trigger.
 
 ### Why should images have alt-text?
 Alt-text increases the accessibility of your project by describing the image to visitors who do not have the ability to see them. Also, it also helps with search engine optimisation.
