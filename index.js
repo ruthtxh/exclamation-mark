@@ -30,6 +30,7 @@ const main = async () => {
         const path = element.path;
         const fileType = path.split('.').pop();
         if (fileType.toLowerCase() === "md") {
+            console.log(path)
             const file = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
                 owner: owner,
                 repo: repo,
@@ -75,6 +76,7 @@ const main = async () => {
     });
 
     let mdFileArr = await Promise.all(promises);
+    console.log(mdFileArr)
     mdFileArr = mdFileArr.filter((element) => {
         return element !== undefined;
     });
