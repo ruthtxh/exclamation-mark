@@ -8,8 +8,8 @@ const main = async () => {
     const token = core.getInput('token', { required: true });
     const ref = core.getInput('ref', { required: true });
     const sha = core.getInput('sha', { required: true });
-    const key = core.getInput('key', { required: true });
-    const endpoint = core.getInput('endpoint', { required: true });
+    const key = core.getInput('key', { required: false });
+    const endpoint = core.getInput('endpoint', { required: false });
     const octokit = new github.getOctokit(token);
 
     const result = await octokit.request('GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive={recursive}', {
@@ -21,11 +21,7 @@ const main = async () => {
             'X-GitHub-Api-Version': '2022-11-28'
         }
     });
-
-
     const tree = result.data.tree;
-    // const mdFileArr = [];
-
     const promises = tree.map(async (element) => {
         const path = element.path;
         const fileType = path.split('.').pop();
@@ -39,7 +35,6 @@ const main = async () => {
                 }
             });
             const content = Buffer.from(file.data.content, 'base64').toString('utf8');
-            // get index of markdown images that do not contain alt text
             const contentArr = content.split('\n')
             let rowArr = []
             for (let i = 0; i < contentArr.length; i++) {
@@ -51,7 +46,6 @@ const main = async () => {
                 const regex = /!\[\]/gi;
                 let result;
                 while ((result = regex.exec(lineContent))) {
-                    // indices.push(result.index);
                     const pos = result.index;
                     const url = lineContent.substring(pos + 4).split(")")[0];
                     let mdError = {
@@ -63,8 +57,8 @@ const main = async () => {
                         end_line: rowArr[i] + 1,
                         urlArr: []
                     }
-                    if (1 == 1) {
-                        await azure.computerVision(key, endpoint, 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png').then((suggestedText) => {
+                    if (key !== undefined && endpoint !== undefined) {
+                        await azure.computerVision(key, endpoint, url).then((suggestedText) => {
                             const updatedText = mdError.message + ' Suggested alt-text: ' + suggestedText;
                             mdError.message = updatedText;
                         })
@@ -95,19 +89,12 @@ const main = async () => {
                 summary: 'There are ' + mdFileArrFlatten.length.toString() + ' warnings.',
                 text: 'You may have some markdown files that contain images with missing alt-text',
                 annotations: mdFileArrFlatten,
-                images: [
-                    {
-                        alt: 'Super dog',
-                        image_url: 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png'
-                    }
-                ]
             },
             headers: {
                 'X-GitHub-Api-Version': '2022-11-28'
             }
         })
     }
-    // core.info(altText)
 }
 (async () => {
     try {
