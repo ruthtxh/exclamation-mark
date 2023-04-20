@@ -57,6 +57,8 @@ const main = async () => {
                         end_line: rowArr[i] + 1,
                         urlArr: []
                     }
+                    console.log(key);
+                    console.log(endpoint);
                     if (key !== undefined && endpoint !== undefined) {
                         await azure.computerVision(key, endpoint, url).then((suggestedText) => {
                             const updatedText = mdError.message + ' Suggested alt-text: ' + suggestedText;
