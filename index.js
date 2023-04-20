@@ -8,8 +8,12 @@ const main = async () => {
     const token = core.getInput('token', { required: true });
     const ref = core.getInput('ref', { required: true });
     const sha = core.getInput('sha', { required: true });
-    const key = core.getInput('key', { required: false });
-    const endpoint = core.getInput('endpoint', { required: false });
+    const key = "";
+    const endpoint = "";
+    try {
+        key = core.getInput('key', { required: false });
+        endpoint = core.getInput('endpoint', { required: false });
+    } catch { }
     const octokit = new github.getOctokit(token);
 
     const result = await octokit.request('GET /repos/{owner}/{repo}/git/trees/{tree_sha}?recursive={recursive}', {
