@@ -14,6 +14,13 @@ Example of markdown image syntax with missing alt-text:
 ![](url)
 ```
 
+### How will this action help?
+Overall report on files that contain images with missing alt-text:
+![github-action-report](https://user-images.githubusercontent.com/40910744/233268311-14779343-40d0-4ff0-bb5b-d4dcd3ea223e.png)
+
+Detailed annotation on relevant file that flags out on line level:
+![github-action-annotation](https://user-images.githubusercontent.com/40910744/233268094-bf004f36-f8e4-4eae-922a-bb7ed0ac6742.png)
+
 ---
 
 ## Usage
