@@ -44,7 +44,7 @@ Example of markdown image syntax with missing alt-text:
 
 #### Basic checker for flagging out missing alt-text
 ```
-name: Basic checker for flagging out missing alt-text
+name: 1. Basic checker
 on:
   push:
     branches: [ "main" ]
@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Check Files
+      - name: Basic checker
         uses: ruthtxh/exclamation-mark@main
         with:
           owner: ${{ github.repository_owner }}
@@ -80,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Check Files
+      - name: Advance checker
         uses: ruthtxh/exclamation-mark@main
         with:
           owner: ${{ github.repository_owner }}
