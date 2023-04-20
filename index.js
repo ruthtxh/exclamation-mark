@@ -62,8 +62,8 @@ const main = async () => {
                             const updatedText = mdError.message + ' Suggested alt-text: ' + suggestedText;
                             mdError.message = updatedText;
                         })
-                        mdFile.push(mdError);
                     }
+                    mdFile.push(mdError);
                 }
                 return (mdFile);
             }
