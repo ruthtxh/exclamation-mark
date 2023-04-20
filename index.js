@@ -30,7 +30,6 @@ const main = async () => {
         const path = element.path;
         const fileType = path.split('.').pop();
         if (fileType.toLowerCase() === "md") {
-            console.log(path)
             const file = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
                 owner: owner,
                 repo: repo,
@@ -60,7 +59,6 @@ const main = async () => {
                         message: 'Missing alt-text for image ' + url + ' on line ' + (rowArr[i] + 1).toString() + '.',
                         start_line: rowArr[i] + 1,
                         end_line: rowArr[i] + 1,
-                        urlArr: []
                     }
                     if (key !== "" && endpoint !== "") {
                         await azure.computerVision(key, endpoint, url).then((suggestedText) => {
@@ -76,12 +74,12 @@ const main = async () => {
     });
 
     let mdFileArr = await Promise.all(promises);
-    console.log(mdFileArr)
     mdFileArr = mdFileArr.filter((element) => {
         return element !== undefined;
     });
     mdFileArrFlatten = [].concat.apply([], mdFileArr)
-
+    console.log(mdFileArr)
+    console.log(mdFileArrFlatten)
     if (mdFileArrFlatten.length > 0) {
         await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
             owner: owner,
