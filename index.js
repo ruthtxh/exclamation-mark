@@ -78,8 +78,6 @@ const main = async () => {
         return element !== undefined;
     });
     mdFileArrFlatten = [].concat.apply([], mdFileArr)
-    console.log(mdFileArr)
-    console.log(mdFileArrFlatten)
     if (mdFileArrFlatten.length > 0) {
         await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
             owner: owner,
