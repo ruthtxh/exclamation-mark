@@ -30,8 +30,8 @@ Example of markdown image syntax with missing alt-text:
 | token    | The token to access the GitHub API                                                                 | True     | ${{ secrets.GITHUB_TOKEN }}                 |
 | ref      | The branch name                                                                                    | True     | ${{ github.head_ref \|\| github.ref_name }} |
 | sha      | The SHA of the commit                                                                              | True       | ${{ github.sha }}                           |
-| key      | The API key for Azure Computer Vision resource (stored as a GitHub Actions secret)                | False    | ${{ secrets.YOUR_KEY_NAME }}                |
-| endpoint | The endpoint for Azure Computer Vision resource                                                   | False    | https://YOUR_COMPUTER_VISION_RESOURCE_NAME.cognitiveservices.azure.com                               |
+| key      | The API key for Azure Computer Vision resource (stored as a GitHub Actions secret)                | False    | ${{ secrets.YOUR_API_KEY_NAME }}                |
+| endpoint | The endpoint for Azure Computer Vision resource                                                   | False    | https://YOUR_CV_RESOURCE_NAME.cognitiveservices.azure.com                               |
 
 
 #### Azure Computer Vision integration (Optional)
@@ -89,7 +89,7 @@ jobs:
           ref: ${{ github.head_ref || github.ref_name }}
           sha: ${{ github.sha }}
           key: ${{ secrets.api_key }}
-          endpoint: 'https://YOUR_COMPUTER_VISION_RESOURCE_NAME.cognitiveservices.azure.com'
+          endpoint: 'https://YOUR_CV_RESOURCE_NAME.cognitiveservices.azure.com'
 ```
 For actual usage, refer to the [exclamation-mark-test repository](https://github.com/ruthtxh/exclamation-mark-test/).
 
