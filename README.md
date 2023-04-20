@@ -4,7 +4,7 @@ This action checks markdown (.md) files for images and flags out missing alt-tex
 ### Why should images have alt-text?
 Alt-text increases the accessibility of your project by describing the image to visitors who do not have the ability to see them. Also, it also helps with search engine optimisation.
 
-### What is the proper syntax of a markdown image?
+### What is the syntax of a markdown image?
 Example of proper markdown image syntax: 
 ```
 ![alt-text](url)
@@ -18,7 +18,9 @@ Example of markdown image syntax with missing alt-text:
 
 ## Usage
 ### Pre-requisites
-Create a workflow .yml file in your repository's .github/workflows directory. An example workflow is available below. For more information, see the GitHub Help Documentation for Creating a workflow file.
+1. Create a `workflow.yml` file in your repository's .github/workflows directory. An example workflow is available below. For more information, see the [GitHub Help Documentation for Creating a workflow file](https://docs.github.com/en/actions/quickstart).
+
+2. [Configure your workflow permission](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions) to read and write.
 
 ### Inputs
 | Name     | Description                                                                                       | Required | Value                                       |
@@ -27,27 +29,67 @@ Create a workflow .yml file in your repository's .github/workflows directory. An
 | repo     | The name of the repository                                                                         | True     | ${{ github.event.repository.name }}         |
 | token    | The token to access the GitHub API                                                                 | True     | ${{ secrets.GITHUB_TOKEN }}                 |
 | ref      | The branch name                                                                                    | True     | ${{ github.head_ref \|\| github.ref_name }} |
-| sha      | The SHA of the commit                                                                              | False    | ${{ github.sha }}                           |
-| key      | The API key for Azure Computer Vision resource (stored as a GitHub Actions secret¹)                | False    | ${{ secrets.YOUR_KEY_NAME }}                |
-| endpoint | The endpoint for Azure Computer Vision resource (stored as a GitHub Actions environment variable²) | False    | ${{ env.endpoint }}                         |
+| sha      | The SHA of the commit                                                                              | True       | ${{ github.sha }}                           |
+| key      | The API key for Azure Computer Vision resource (stored as a GitHub Actions secret)                | False    | ${{ secrets.YOUR_KEY_NAME }}                |
+| endpoint | The endpoint for Azure Computer Vision resource                                                   | False    | https://YOUR_COMPUTER_VISION_RESOURCE_NAME.cognitiveservices.azure.com                               |
 
 
-#### Azure Computer Vision integrations
-¹ Creating a GitHub Actions  secret
+#### Azure Computer Vision integration (Optional)
+1. [Create a computer vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in the Azure portal and get your API key and endpoint.
 
-² Creating a GitHub Actions environment variable
-
-[Create a computer vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in the Azure portal to get your key and endpoint. 
-Note: the Azure Computer Vision endpoint has the form `https://YOUR_COMPUTER_VISION_RESOURCE_NAME.cognitiveservices.azure.com`
-
+2. Create a GitHub Actions secret to store your API key.
 
 
 ### Example workflow
 
 #### Basic checker for flagging out missing alt-text
+```
+name: Basic checker for flagging out missing alt-text
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check Files
+        uses: ruthtxh/exclamation-mark@main
+        with:
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref || github.ref_name }}
+          sha: ${{ github.sha }}
+```
 
-#### Advance checker with Azure Computer Vision suggestion for alt-text
+#### Advance checker with Azure Computer Vision integration for alt-text suggestion
+```
+name: 2. Advance checker
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check Files
+        uses: ruthtxh/exclamation-mark@main
+        with:
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref || github.ref_name }}
+          sha: ${{ github.sha }}
+          key: ${{ secrets.api_key }}
+          endpoint: 'https://YOUR_COMPUTER_VISION_RESOURCE_NAME.cognitiveservices.azure.com'
+```
+For actual usage, refer to the [exclamation-mark-test repository](https://github.com/ruthtxh/exclamation-mark-test/).
 
-
-
-## License
