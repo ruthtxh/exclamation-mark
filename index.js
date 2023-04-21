@@ -54,8 +54,9 @@ const main = async () => {
             // console.log(rowArr)
             let mdFile = [];
             for (let i = 0; i < rowArr.length; i++) {
-                console.log(lineContent)
                 const lineContent = contentArr[rowArr[i]]
+                
+                console.log(lineContent)
                 const regex = /!\[\]/gi;
                 let result;
                 while ((result = regex.exec(lineContent))) {
