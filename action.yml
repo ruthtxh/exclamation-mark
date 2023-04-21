@@ -1,5 +1,5 @@
-name: 'File Check Action'
-description: 'File action'
+name: '![Exclamation Mark]'
+description: 'Markdown Image Alt-text Checker'
 inputs:
   owner:
     description: 'The owner of the repository'
