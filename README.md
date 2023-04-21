@@ -44,7 +44,7 @@ Detailed annotation on relevant file that flags out on line level:
 #### Azure Computer Vision integration (Optional)
 1. [Create a computer vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in the Azure portal and get your API key and endpoint.
 
-2. Create a GitHub Actions secret to store your API key.
+2. [Create a GitHub Actions secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets) to store your API key.
 
 
 ### Example workflow
