@@ -51,8 +51,9 @@ const main = async () => {
                     index = contentArr[i].indexOf(syntax, index + 1);
                 }
             }
-            // console.log(rowArr)
+            console.log(rowArr)
             let mdFile = [];
+        
             for (let i = 0; i < rowArr.length; i++) {
                 const lineContent = contentArr[rowArr[i]]
                 
