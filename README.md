@@ -98,5 +98,5 @@ jobs:
           key: ${{ secrets.api_key }}
           endpoint: 'https://YOUR_CV_RESOURCE_NAME.cognitiveservices.azure.com'
 ```
-For actual usage, refer to the [exclamation-mark-test repository](https://github.com/ruthtxh/markdown-image-alt-text-checker-test/).
+For actual usage, refer to the [markdown-image-alt-text-checker-test repository](https://github.com/ruthtxh/markdown-image-alt-text-checker-test/).
 
