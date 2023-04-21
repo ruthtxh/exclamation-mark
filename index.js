@@ -8,8 +8,8 @@ const main = async () => {
     const token = core.getInput('token', { required: true });
     const ref = core.getInput('ref', { required: true });
     const sha = core.getInput('sha', { required: true });
-    const key = "";
-    const endpoint = "";
+    let key = "";
+    let endpoint = "";
     key = core.getInput('key', { required: false });
     endpoint = core.getInput('endpoint', { required: false });
     const octokit = new github.getOctokit(token);
