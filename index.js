@@ -53,10 +53,10 @@ const main = async () => {
             }
             console.log(rowArr)
             let mdFile = [];
-        
+
             for (let i = 0; i < rowArr.length; i++) {
                 const lineContent = contentArr[rowArr[i]]
-                
+
                 console.log(lineContent)
                 const regex = /!\[\]/gi;
                 let result;
@@ -81,8 +81,9 @@ const main = async () => {
                     mdFile.push(mdError);
                 }
                 console.log(mdFile)
-                return (mdFile);
             }
+
+            return (mdFile);
         }
     });
 
