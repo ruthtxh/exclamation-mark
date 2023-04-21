@@ -1,5 +1,8 @@
 name: 'Markdown Image Alt-text Checker'
 description: 'Markdown Image Alt-text Checker'
+branding:
+  icon: 'alert-circle'
+  color: 'red'
 inputs:
   owner:
     description: 'The owner of the repository'
