@@ -42,7 +42,7 @@ const main = async () => {
             const contentArr = content.split('\n')
             let rowArr = []
             for (let i = 0; i < contentArr.length; i++) {
-                console.log(contentArr[i])
+                // console.log(contentArr[i])
                 const syntax = "![]";
                 let index = contentArr[i].indexOf(syntax);
                 while (index != -1) {
@@ -51,7 +51,7 @@ const main = async () => {
                     index = contentArr[i].indexOf(syntax, index + 1);
                 }
             }
-            console.log(rowArr)
+            // console.log(rowArr)
             let mdFile = [];
             for (let i = 0; i < rowArr.length; i++) {
                 const lineContent = contentArr[rowArr[i]]
@@ -76,6 +76,7 @@ const main = async () => {
                     }
                     mdFile.push(mdError);
                 }
+                console.log(mdFile)
                 return (mdFile);
             }
         }
@@ -85,6 +86,7 @@ const main = async () => {
     mdFileArr = mdFileArr.filter((element) => {
         return element !== undefined;
     });
+    console.log(mdFileArr)
     mdFileArrFlatten = [].concat.apply([], mdFileArr)
     if (mdFileArrFlatten.length > 0) {
         await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
