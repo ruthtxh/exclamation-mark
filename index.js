@@ -42,18 +42,21 @@ const main = async () => {
             const contentArr = content.split('\n')
             let rowArr = []
             for (let i = 0; i < contentArr.length; i++) {
-                if (contentArr[i].indexOf("![]") >= 0) rowArr.push(i)
+                const syntax = "![]";
+                let index = contentArr[i].indexOf(syntax);
+                while (index != -1) {
+                    rowArr.push(i)
+                    index = contentArr[i].indexOf(syntax, index + 1);
+                }
             }
             let mdFile = [];
             for (let i = 0; i < rowArr.length; i++) {
                 const lineContent = contentArr[rowArr[i]]
                 const regex = /!\[\]/gi;
                 let result;
-                console.log(lineContent)
                 while ((result = regex.exec(lineContent))) {
                     const pos = result.index;
                     const url = lineContent.substring(pos + 4).split(")")[0];
-                    console.log(url)
                     let mdError = {
                         path: element.path,
                         annotation_level: 'warning',
@@ -79,7 +82,6 @@ const main = async () => {
     mdFileArr = mdFileArr.filter((element) => {
         return element !== undefined;
     });
-    console.log(mdFileArr)
     mdFileArrFlatten = [].concat.apply([], mdFileArr)
     if (mdFileArrFlatten.length > 0) {
         await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
