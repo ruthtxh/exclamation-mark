@@ -85,12 +85,12 @@ const main = async () => {
         await octokit.request('POST /repos/{owner}/{repo}/check-runs', {
             owner: owner,
             repo: repo,
-            name: '![Exclamation Mark]',
+            name: 'Markdown Image Alt-text Checker',
             head_sha: sha,
             status: 'completed',
             conclusion: 'failure',
             output: {
-                title: '![Exclamation Mark] GitHub Action Report',
+                title: 'Markdown Image Alt-text Checker GitHub Action Report',
                 summary: 'There are ' + mdFileArrFlatten.length.toString() + ' warnings.',
                 text: 'You may have some markdown files that contain images with missing alt-text',
                 annotations: mdFileArrFlatten,
