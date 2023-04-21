@@ -16,10 +16,10 @@ Example of markdown image syntax with missing alt-text:
 
 ### How will this action help?
 Overall report on files that contain images with missing alt-text:
-![github-action-report](https://user-images.githubusercontent.com/40910744/233268311-14779343-40d0-4ff0-bb5b-d4dcd3ea223e.png)
+![github-action-report](https://user-images.githubusercontent.com/40910744/233547633-ad9d8c6d-6356-4098-93ee-34bd33cd35c4.png)
 
 Detailed annotation on relevant file that flags out on line level:
-![github-action-annotation](https://user-images.githubusercontent.com/40910744/233268094-bf004f36-f8e4-4eae-922a-bb7ed0ac6742.png)
+![github-action-annotation](https://user-images.githubusercontent.com/40910744/233547407-d62ac482-c7d7-499d-b104-311201ef4e7a.png)
 
 ---
 
