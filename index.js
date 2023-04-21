@@ -46,7 +46,7 @@ const main = async () => {
                 const syntax = "![]";
                 let index = contentArr[i].indexOf(syntax);
                 while (index != -1) {
-                    console.log(index)
+                    // console.log(index)
                     rowArr.push(i)
                     index = contentArr[i].indexOf(syntax, index + 1);
                 }
@@ -54,10 +54,12 @@ const main = async () => {
             // console.log(rowArr)
             let mdFile = [];
             for (let i = 0; i < rowArr.length; i++) {
+                console.log(lineContent)
                 const lineContent = contentArr[rowArr[i]]
                 const regex = /!\[\]/gi;
                 let result;
                 while ((result = regex.exec(lineContent))) {
+                    console.log('hi')
                     const pos = result.index;
                     const url = lineContent.substring(pos + 4).split(")")[0];
                     let mdError = {
