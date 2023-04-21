@@ -1,4 +1,4 @@
-# ❗[Exclamation Mark] Markdown Image Alt-text Checker
+# Markdown Image Alt-text Checker
 This action checks markdown (.md) files for images and flags out missing inline alt-text. Optional usage with the Microsoft Azure Cognitive Services integration to get suggestions for the missing alt-text. Can be run as part of a PR pre-merge check or periodically using the `workflow_dispatch` trigger.
 
 ### Why should images have alt-text?
@@ -64,7 +64,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Basic checker
-        uses: ruthtxh/exclamation-mark@main
+        uses: ruthtxh/markdown-image-alt-text-checker@main
         with:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
@@ -88,7 +88,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Advance checker
-        uses: ruthtxh/exclamation-mark@main
+        uses: ruthtxh/markdown-image-alt-text-checker@main
         with:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
@@ -98,5 +98,5 @@ jobs:
           key: ${{ secrets.api_key }}
           endpoint: 'https://YOUR_CV_RESOURCE_NAME.cognitiveservices.azure.com'
 ```
-For actual usage, refer to the [exclamation-mark-test repository](https://github.com/ruthtxh/exclamation-mark-test/).
+For actual usage, refer to the [markdown-image-alt-text-checker-test repository](https://github.com/ruthtxh/markdown-image-alt-text-checker-test/).
 
