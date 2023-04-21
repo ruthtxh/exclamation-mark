@@ -1,4 +1,4 @@
-name: '![Exclamation Mark]'
+name: 'Exclamation Mark'
 description: 'Markdown Image Alt-text Checker'
 inputs:
   owner:
