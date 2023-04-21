@@ -42,13 +42,16 @@ const main = async () => {
             const contentArr = content.split('\n')
             let rowArr = []
             for (let i = 0; i < contentArr.length; i++) {
+                console.log(contentArr[i])
                 const syntax = "![]";
                 let index = contentArr[i].indexOf(syntax);
                 while (index != -1) {
+                    console.log(index)
                     rowArr.push(i)
                     index = contentArr[i].indexOf(syntax, index + 1);
                 }
             }
+            console.log(rowArr)
             let mdFile = [];
             for (let i = 0; i < rowArr.length; i++) {
                 const lineContent = contentArr[rowArr[i]]
